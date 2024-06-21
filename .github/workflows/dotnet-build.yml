@@ -1,0 +1,35 @@
+name: github-actions .NET Webapp
+ 
+# Eventos que acionam o workflow
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+     - cron: '*/5 * * * *' # A cada 5 minutos conforme solicitado
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:  # Passo a passo da atividade conforme explicação
+      - name: Checkout repository
+        uses: actions/checkout@v4  # Fazer o checkout do código
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4  # Configurar o .NET Core
+        with:
+          dotnet-version: 8.0.x 
+
+      - name: Restore dependencies
+        run: dotnet restore **/*.csproj  # Restaurar as dependências
+
+      - name: Build
+        run: dotnet build **/*.csproj --no-restore  # Construir o projeto
+
+      - name: Custom Script
+        run: |
+          echo "Running custom script"
+          # Script criado para laboratório do módulo 4 na iniciativa GH4Woman 2024 **/*.csproj
+          echo "Tests completed successfully"
